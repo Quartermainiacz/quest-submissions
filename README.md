@@ -26,4 +26,8 @@ Approachability is useful as it allows anyone with some coding experience to ide
 
 Developer experience is useful because being able to find bugs quickly and develop at a faster speed. To be able to find a solution would help the whole community grow quickly will only help more developers be involved.
 
+Chapter 1.5
+Basics of functions, use of concatenation.
+
+
 
