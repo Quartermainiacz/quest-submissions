@@ -29,5 +29,13 @@ Developer experience is useful because being able to find bugs quickly and devel
 Chapter 1.5
 Basics of functions, use of concatenation.
 
+Chapter 2
+
+Make first smart contract, write a script to read the variable
+
+![Chapter 2 img 2](https://user-images.githubusercontent.com/104719670/166220651-4ff327b6-3eaa-4392-81e8-bc8eeec60bd8.png)
+![Chapter 2 img1](https://user-images.githubusercontent.com/104719670/166220657-f8871536-1989-4999-b44b-cef53fc743e8.png)
+
+
 
 
