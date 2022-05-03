@@ -29,13 +29,35 @@ Developer experience is useful because being able to find bugs quickly and devel
 Chapter 1.5
 Basics of functions, use of concatenation.
 
-Chapter 2
+Chapter 2 
+
+Day 1
 
 Make first smart contract, write a script to read the variable
 
 ![Chapter 2 img 2](https://user-images.githubusercontent.com/104719670/166220651-4ff327b6-3eaa-4392-81e8-bc8eeec60bd8.png)
 ![Chapter 2 img1](https://user-images.githubusercontent.com/104719670/166220657-f8871536-1989-4999-b44b-cef53fc743e8.png)
 
+Day 2
+
+Explain why we wouldn't call changeGreeting in a script.
+As you only use scripts to read data from the Blockchain. Change greeting is changing something on the Blockchain so is a transaction??
+
+What does the AuthAccount mean in the prepare phase of the transaction?
+It gives the transacion permission to access your account and the data within it.
+
+What is the difference between the prepare phase and the execute phase in the transaction?
+Prepare is giving access to an acccount and the excute phase is about the change.
+
+
+Add two new things inside your contract:
+        A variable named myNumber that has type Int (set it to 0 when the contract is deployed)
+        A function named updateMyNumber that takes in a new number named newNumber as a parameter that has type Int and updates myNumber to be newNumber
+![Chapter 2 day 2 Lost ](https://user-images.githubusercontent.com/104719670/166441647-653c0903-7c14-49ff-9a38-4a8477e37fc6.png)
+
+    Add a script that reads myNumber from the contract
+
+    Add a transaction that takes in a parameter named myNewNumber and passes it into the updateMyNumber function. Verify that your number changed by running the script again.
 
 
 
