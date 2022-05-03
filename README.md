@@ -53,11 +53,14 @@ Prepare is giving access to an acccount and the excute phase is about the change
 Add two new things inside your contract:
         A variable named myNumber that has type Int (set it to 0 when the contract is deployed)
         A function named updateMyNumber that takes in a new number named newNumber as a parameter that has type Int and updates myNumber to be newNumber
-![Chapter 2 day 2 Lost ](https://user-images.githubusercontent.com/104719670/166441647-653c0903-7c14-49ff-9a38-4a8477e37fc6.png)
+I think this is the correct code for the contract - Can someon confirm this to be true? TIA
+![Ch2 day2 Contract code](https://user-images.githubusercontent.com/104719670/166458405-29cf8150-ad59-42b9-a959-7ae394f209a4.png)
 
-    Add a script that reads myNumber from the contract
+Add a script that reads myNumber from the contract
+I am stuck on this part    
 
     Add a transaction that takes in a parameter named myNewNumber and passes it into the updateMyNumber function. Verify that your number changed by running the script again.
+Not sure how to do this part either.
 
 
 
