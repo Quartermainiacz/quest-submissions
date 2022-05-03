@@ -57,9 +57,12 @@ I think this is the correct code for the contract - Can someon confirm this to b
 ![Ch2 day2 Contract code](https://user-images.githubusercontent.com/104719670/166458405-29cf8150-ad59-42b9-a959-7ae394f209a4.png)
 
 Add a script that reads myNumber from the contract
-I am stuck on this part    
+I think this is correct. I have replaced String with Int and replaced greeting with myNumber
+![Ch 2 day 2 script](https://user-images.githubusercontent.com/104719670/166467731-241f7813-b041-4da7-bdf8-b689a3453eb8.png)
 
-    Add a transaction that takes in a parameter named myNewNumber and passes it into the updateMyNumber function. Verify that your number changed by running the script again.
+Add a transaction that takes in a parameter named myNewNumber and passes it into the updateMyNumber function. Verify that your number changed by running the script again.
+
+
 Not sure how to do this part either.
 
 
