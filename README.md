@@ -63,7 +63,8 @@ I think this is correct. I have replaced String with Int and replaced greeting w
 Add a transaction that takes in a parameter named myNewNumber and passes it into the updateMyNumber function. Verify that your number changed by running the script again.
 
 
-Not sure how to do this part either.
+![Error from TX part of Chap 2 day2](https://user-images.githubusercontent.com/104719670/167037040-c14cc799-a202-4581-88f6-5b61ac509c42.png)
 
+Can anyone help on this part of the TX? TIA
 
 
