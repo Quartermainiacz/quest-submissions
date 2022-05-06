@@ -55,16 +55,52 @@ Add two new things inside your contract:
         A function named updateMyNumber that takes in a new number named newNumber as a parameter that has type Int and updates myNumber to be newNumber
 I think this is the correct code for the contract - Can someon confirm this to be true? TIA
 ![Ch2 day2 Contract code](https://user-images.githubusercontent.com/104719670/166458405-29cf8150-ad59-42b9-a959-7ae394f209a4.png)
+pub contract HelloWorld {
 
+    pub var greeting: String
+
+    pub fun changeGreeting(newGreeting: String) {
+        self.greeting = newGreeting
+    }
+
+    pub var myNumber: Int
+
+    pub fun updateMyNumber(newNumber: Int)  {
+        self.myNumber = newNumber
+    }
+
+    init() {
+        self.greeting = "Hello, World!"
+        self.myNumber = 0
+    }
+}
 Add a script that reads myNumber from the contract
 I think this is correct. I have replaced String with Int and replaced greeting with myNumber
 ![Ch 2 day 2 script](https://user-images.githubusercontent.com/104719670/166467731-241f7813-b041-4da7-bdf8-b689a3453eb8.png)
+import HelloWorld from 0x01
 
+pub fun main(): Int {
+    return HelloWorld.myNumber
+}
 Add a transaction that takes in a parameter named myNewNumber and passes it into the updateMyNumber function. Verify that your number changed by running the script again.
+
 
 
 ![Error from TX part of Chap 2 day2](https://user-images.githubusercontent.com/104719670/167037040-c14cc799-a202-4581-88f6-5b61ac509c42.png)
 
-Can anyone help on this part of the TX? TIA
+TX SOLVED
+![TX for C2 D2 final part](https://user-images.githubusercontent.com/104719670/167224937-8be7d895-0a9c-4811-94c7-c768a8b630f7.png)
+
+
+import HelloWorld from 0x01
+
+transaction(myNewGreeting: String, updateMyNumber: Int) {
+
+  prepare(signer: AuthAccount) {}
+
+  execute {
+    HelloWorld.changeGreeting(newGreeting: myNewGreeting)
+  }
+}
 
 
