@@ -103,4 +103,7 @@ transaction(myNewGreeting: String, updateMyNumber: Int) {
   }
 }
 
+Day 3
+
+![Error from C3](https://user-images.githubusercontent.com/104719670/167227776-2c92cf14-bcf6-4ba6-bd38-c5889afc46ab.png)
 
