@@ -107,3 +107,28 @@ Day 3
 
 ![Error from C3](https://user-images.githubusercontent.com/104719670/167227776-2c92cf14-bcf6-4ba6-bd38-c5889afc46ab.png)
 
+
+var people: [String] = ["Jacob", "Alice", "Damian"]
+log(people.length) // 3
+UInt64 = 0
+let social: {String: UInt64} = [Twitter: 1, Instagram: 2, Facebook:3, LinkedIn:4, Youtube: 5, Reddit: 6 ]
+
+//The force unwrap operator allows the type of data to be identified as optional. For example a String could be mismatched with 
+//another String and you could use  it to identify this. So the value could be a String or nil.
+
+
+//    What the error message means
+    
+    //I think that it means that one of the String values is optional.
+    
+    
+//    Why we're getting this error
+
+    // I think its because we have not used an !
+
+
+//How to fix it
+
+    //Add in an ! in the right place.
+
+
