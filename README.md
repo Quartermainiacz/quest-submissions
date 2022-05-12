@@ -132,6 +132,7 @@ Explain what the force unwrap operator ! does, with an example different from th
 
 //How to fix it
 
-    //Add in an ! and an ? in the right place.
+    //Add in an ! and an ? in the right place.![Script fixed maybe](https://user-images.githubusercontent.com/104719670/168178860-0147c0f8-e00b-4edc-82e5-9008131cca84.png)
+
 
 
