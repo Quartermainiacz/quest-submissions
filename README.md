@@ -135,6 +135,15 @@ Explain what the force unwrap operator ! does, with an example different from th
     //Add in an ! and an ? in the right place.!
     
     [Script fixed maybe](https://user-images.githubusercontent.com/104719670/168178860-0147c0f8-e00b-4edc-82e5-9008131cca84.png)
+    
+C2 D4
+
+![C2 D4 First Task](https://user-images.githubusercontent.com/104719670/168183062-12491e37-0b75-46e2-abb3-7b4713b99b32.png)
+![C2 D4 Script wrong](https://user-images.githubusercontent.com/104719670/168183063-c7b5906a-55ef-481d-bf1d-855d37e31d1b.png)
+![C2 D4 TX](https://user-images.githubusercontent.com/104719670/168183064-caf126b4-9155-4aa5-9438-641458efb702.png)
+
+I dont seem to be able to get the script to run but I think The contract is correct and the transaction as I am able to read the changes in the output window.
+
 
 
 
