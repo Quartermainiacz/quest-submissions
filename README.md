@@ -146,12 +146,55 @@ I dont seem to be able to get the script to run but I think The contract is corr
 
 C3 D1
 
-//NOtes for future
+//Notes for future for Resources
 
-    //You can only make a new resource with the create keyword. The create keyword can only ever be used inside the contract. This means you, as the developer, can control when they are made. This is not true for structs, since structs can be created outside the contract.
-    You have to use the @ symbol in front of a resource's type, like so: @Greeting.
-    You use the <- symbol to move a resource around.
-    You use the destroy keyword to, well, destroy a resource.
+    //1.You can only make a new resource with the create keyword. The create keyword can only ever be used inside the contract. This means you, as the developer, can control when they are made. This is not true for structs, since structs can be created outside the contract.
+    2.You have to use the @ symbol in front of a resource's type, like so: @Greeting.
+    3.You use the <- symbol to move a resource around.
+    4.You use the destroy keyword to, well, destroy a resource.
+    
+
+
+    In words, list 3 reasons why structs are different from resources.
+    
+    Resources are more secure than structs
+    Resources cannot be copied
+    Resources cannot be lost or over-written
+    Resources cannot be created anytime you want
+    
+
+    Describe a situation where a resource might be better to use than a struct.
+    Where you are moving an NFT from one user to another. So I think this would work on a marketplace like BloctoBay.
+    
+    What is the keyword to make a new resource?
+    create
+    
+    Can a resource be created in a script or transaction (assuming there isn't a public function to create one)?
+    I think it could be created in a tx because this would be how a marketplace swaps an NFT from one user to another.
+    
+    What is the type of the resource below?
+    An empty resource named Jacob??
+    
+    4 Errors are:
+    pub fun createJacob(): Jacob { // there is 1 here
+    
+    1.No @ before Jacob
+    
+        let myJacob = Jacob() // there are 2 here
+        
+    2.Use of  = instead of moving operator <-
+    3.No create in front of Jacob
+        
+        
+        return myJacob // there is 1 here
+       
+    4.Didnt use moving operator <- between return and myJacob
+    
+C3 D2
+![Resources and Arrays](https://user-images.githubusercontent.com/104719670/168466624-0b334ebf-cf3c-4fa1-a7d0-9e046679db73.png)
+
+
+
 
 
 
