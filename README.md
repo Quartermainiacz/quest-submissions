@@ -144,6 +144,16 @@ C2 D4
 
 I dont seem to be able to get the script to run but I think The contract is correct and the transaction as I am able to read the changes in the output window.
 
+C3 D1
+
+//NOtes for future
+
+    //You can only make a new resource with the create keyword. The create keyword can only ever be used inside the contract. This means you, as the developer, can control when they are made. This is not true for structs, since structs can be created outside the contract.
+    You have to use the @ symbol in front of a resource's type, like so: @Greeting.
+    You use the <- symbol to move a resource around.
+    You use the destroy keyword to, well, destroy a resource.
+
+
 
 
 
