@@ -206,6 +206,21 @@ Still getting an error on the last one. I admit I used another users code to hel
 
 The error was in the last part about removing a resource from a Dict. 
 
+C3 D3
+
+
+
+    Define your own contract that stores a dictionary of resources. Add a function to get a reference to one of the resources in the dictionary.
+    ![C3D3 1st](https://user-images.githubusercontent.com/104719670/171283572-09839047-ba96-4ecf-a170-483286c6fcfd.png)
+
+    Create a script that reads information from that resource using the reference from the function you defined in part 1.
+    ![C3D3 2nd](https://user-images.githubusercontent.com/104719670/171283597-57b54f13-3aa2-4dab-9da0-ddda5210a631.png)
+    ![C3D3 3rd](https://user-images.githubusercontent.com/104719670/171283609-5b4cb1be-40e9-47c6-b47c-d466a92c8be3.png)
+
+    Explain, in your own words, why references can be useful in Cadence.
+    References are useful because we dont have to move resources around and you can still get the information you need. References must be type cast or an error will pop up. 
+    
+
 
 
 
