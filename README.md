@@ -220,9 +220,113 @@ C3 D3
     Explain, in your own words, why references can be useful in Cadence.
     References are useful because we dont have to move resources around and you can still get the information you need. References must be type cast or an error will pop up. 
     
+C3D4 - Notes then answers
+
+   How to initially set up a Resource Interface
+   
+   pub contract Stuff {
+
+    pub resource interface ITest {
+      pub let name: String
+    }
+
+    // It's good now :)
+    pub resource Test: ITest {
+      pub let name: String
+      init() {
+        self.name = "Spongebob" // anyone else like Spongebob?
+      }
+    }
+}
+
+    How to restrict access to Resource interfaces and functions
+    
+    pub contract Stuff {
+
+    pub resource interface ITest {
+      pub var name: String
+      pub var number: Int
+      pub fun updateNumber(newNumber: Int): Int
+    }
+
+    pub resource Test: ITest {
+      pub var name: String
+      pub var number: Int
+
+      pub fun updateNumber(newNumber: Int): Int {
+        self.number = newNumber
+        return self.number // returns the new number
+      }
+
+      init() {
+        self.name = "Spongebob"
+        self.number = 1
+      }
+    }
+
+    pub fun noInterface() {
+      let test: @Test <- create Test()
+      test.updateNumber(newNumber: 5)
+      log(test.number) // 5
+
+      destroy test
+    }
+
+    // Works totally fine now! :D
+    pub fun yesInterface() {
+      let test: @Test{ITest} <- create Test()
+      let newNumber = test.updateNumber(newNumber: 5)
+      log(newNumber) // 5
+
+      destroy test
+    }
+}
+
+ANSWERS
+
+    Explain, in your own words, the 2 things resource interfaces can be used for (we went over both in today's content)
+    
+    Resource interfaces can be used to make resources implement certain things after specific requirements have been met. They can also be used to restrict access to things like functions only to certain people.(I think this is like when a NBA Topshot acccount only allows you to sell and buy moments??)
+
+    Define your own contract. Make your own resource interface and a resource that implements the interface. Create 2 functions. In the 1st function, show an example of not restricting the type of the resource and accessing its content. In the 2nd function, show an example of restricting the type of the resource and NOT being able to access its content.
+    
+    ![C3D4](https://user-images.githubusercontent.com/104719670/171290228-cb66eecc-6c52-4db6-9cdc-e979f3cbd664.png)
+    
+    Used the example in themain. I am able to identify which things I can change but I am starting to get a litle lost around what each section does.
 
 
+    How would we fix this code?
 
+    pub contract Stuff {
+
+    pub struct interface ITest {
+      pub var greeting: String
+      pub var favouriteFruit: String
+      pub fun changeGreeting(newGreeting: String): String // Added to make the function accessible
+    }
+
+    // ERROR FIXED
+    pub struct Test: ITest {
+      pub var greeting: String
+      pub var favouriteFruit: String // Add this to work with the ITest interface
+
+      pub fun changeGreeting(newGreeting: String): String {
+        self.greeting = newGreeting
+        return self.greeting // returns the new greeting
+      }
+
+      init() {
+        self.greeting = "WASSUP"
+        self.favouriteFruit = "Raspberries" 
+      }
+    }
+
+    pub fun fixThis() {
+      let test: Test{ITest} = Test()
+      let newGreeting = test.changeGreeting(newGreeting: "Bonjour!") // ERROR FIXED
+      log(newGreeting)
+    }
+}
 
 
 
