@@ -199,6 +199,14 @@ C3 D1
 C3 D2
 ![Resources and Arrays](https://user-images.githubusercontent.com/104719670/168466624-0b334ebf-cf3c-4fa1-a7d0-9e046679db73.png)
 
+![C3D2 1st](https://user-images.githubusercontent.com/104719670/171280002-82a080ea-bac2-415c-a05d-ab50eb8cbfae.png)
+![C3D2 2nd](https://user-images.githubusercontent.com/104719670/171280009-f9cafff6-070a-4806-b14d-3316f42b9d92.png)
+
+Still getting an error on the last one. I admit I used another users code to help me get started but found it had quite a few errors.(Not sure if it was playground playing up of not) Managed to fix most of them and the screenshots are the result.
+
+The error was in the last part about removing a resource from a Dict. 
+
+
 
 
 
