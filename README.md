@@ -11,7 +11,7 @@ DAY 1
     
     #Explain the difference between a script and a transaction.
     
-    #A script is a line of code that reads information from a blockchain
+    #A script is a line of code that reads information from a blockchain and it is free.
     
     #A transaction is a paid function call(when data gets changed on a blockchain). On certain blockchains this payment is known as gas and is a complete rip #off!
     
