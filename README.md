@@ -327,6 +327,13 @@ ANSWERS
       log(newGreeting)
     }
 }
+    
+    NEED TO REMOVE VARIABLES TO CREATE ERROR -> SEE ADVICE FROM SNOMOBEELS BELOW
+    ![Advice from SNOMOBEELS1](https://user-images.githubusercontent.com/104719670/171509135-b9579223-02b1-440d-b719-a1d7715a8a29.png)
+    ![Advice from SNOMOBEELS2](https://user-images.githubusercontent.com/104719670/171509138-a75d7c0e-6f76-42ea-84b8-09ec84d3928b.png)
+
+
+
 
 C3D5
 
@@ -435,13 +442,13 @@ pub fun main() {
   /*** AREA 4 ***/
   /**************/
   
-    // a: can be read // write in a transaction
+    // a: can be read
     // b: can be read
     // c: no access
     // d: no access
     
     // publicFunc() can be called here
 }
-
+//**All of these relate to var not let**//
 LINK TO ACCESS CONTROL ON FLOW DOCS
 https://docs.onflow.org/cadence/language/access-control/
