@@ -433,14 +433,14 @@ C3D5
     }
 }
 
-SCRIPT
+    SCRIPT
 
-import SomeContract from 0x01
+    import SomeContract from 0x01
 
-pub fun main() {
-  /**************/
-  /*** AREA 4 ***/
-  /**************/
+    pub fun main() {
+    /**************/
+    /*** AREA 4 ***/
+    /**************/
   
     // a: can be read
     // b: can be read
@@ -448,7 +448,146 @@ pub fun main() {
     // d: no access
     
     // publicFunc() can be called here
-}
-//**All of these relate to var not let**//
-LINK TO ACCESS CONTROL ON FLOW DOCS
-https://docs.onflow.org/cadence/language/access-control/
+    }
+    //**All of these relate to var not let**//
+    LINK TO ACCESS CONTROL ON FLOW DOCS
+    https://docs.onflow.org/cadence/language/access-control/
+    
+C4D1 - Account Storage
+
+    
+
+    Explain what lives inside of an account.
+    
+    1. A contract or mulitple contracts
+    2. Account storage with 3 differnet paths; Storage, Public and Private.
+
+    What is the difference between the /storage/, /public/, and /private/ paths?
+    Storage path is where all the data is stored in your account
+    Public path is acessible for everyone to see
+    Private path is only accessible to the Auth Account(person who owns the account) 
+    
+
+    What does .save() do? What does .load() do? What does .borrow() do?
+    .save() - Allows us to put resources into storage
+    .load() - Allows us to take resources from storage
+    .borrow() - Allows us to borrow a reference to the resource from storage
+
+    Explain why we couldn't save something to our account storage inside of a script.
+    Because all of the code appears in the prepare section of the transaction.
+
+    Explain why I couldn't save something to your account.
+    As you dont have access to my account unless I give it to you.  I would need to sign the transaction.
+
+    Define a contract that returns a resource that has at least 1 field in it. Then, write 2 transactions:
+    
+    AirPatrolIDEAContract
+    
+    pub contract AirPatrol {
+
+    pub var totalSupply: UInt64
+
+    pub resource interface IPilot {
+        pub let id: UInt64
+        pub let name: String
+        pub var nickname: String
+        pub fun changeNickname(nickname: String)
+    }
+
+    pub resource Pilot: IPilot {
+        pub let id: UInt64
+        pub let name: String
+        pub var nickname: String
+
+        init(name: String) {
+            self.name = name
+
+            self.nickname = ""
+
+            // Increment the global AirPatrol IDs
+            AirPatrol.totalSupply = AirPatrol.totalSupply + 1
+
+            // Set unique AirPatrol ID to the newly incremented totalSupply
+            self.id = AirPatrol.totalSupply
+        }
+
+        pub fun changeNickname(nickname: String) {
+            self.nickname = nickname
+        }
+    }
+
+    pub fun updateNicknameWithoutInterface() {
+        let pilot: @Pilot <- create Pilot(name: "Mitchell")
+        pilot.changeNickname(nickname: "Maverick")
+        log(pilot.nickname) // "New"
+
+        destroy pilot
+    }
+
+    // Restricted
+    pub fun updateNicknameInterface() {
+      let pilot: @Pilot{IPilot} <- create Pilot(name: "Mitchell")
+        pilot.changeNickname(nickname: "Maverick")
+        log(pilot.nickname) // "New"
+
+        destroy pilot
+    }
+
+    pub fun createPilot(name: String): @Pilot {
+    return <- create Pilot(name: name)
+  }
+
+    init() {
+        self.totalSupply = 0
+    }
+    
+
+       ** A transaction that first saves the resource to account storage, then loads it out of account storage, logs a field inside the resource, and destroys it.**
+       
+    import AirPatrol from 0x01
+
+    transaction(name: String) {
+    prepare(signer: AuthAccount) {
+    // Save the resource to account storage
+    signer.save(<- AirPatrol.createPilot(name: name), to: /storage/AirPatrolStorage)
+
+    // Load the resource from the account storage
+    let pilot <- signer.load<@AirPatrol.Pilot>(from: /storage/AirPatrolStorage)
+                  ?? panic("A `@AirPatrol.Pilot` resource does not exist")
+
+    // Log a field
+    log(pilot.name)
+
+    // Destroy the pilot
+    destroy pilot
+     }
+
+     execute {
+
+     }
+    }
+        **A transaction that first saves the resource to account storage, then borrows a reference to it, and logs a field inside the resource.**
+
+    import AirPatrol from 0x01
+
+    transaction(name: String) {
+    prepare(signer: AuthAccount) {
+    // Save the resource to account storage
+    signer.save(<- AirPatrol.createPilot(name: name), to: /storage/AirPatrolStorage)
+
+    // Borrow the resource from the account storage
+    let pilot = signer.borrow<&AirPatrol.Pilot>(from: /storage/AirPatrolStorage)
+                  ?? panic("A `@AirPatrol.Pilot` resource does not exist")
+
+    // Log a field
+    log(pilot.name)
+    }
+
+    execute {
+
+     }
+    }
+    Hopefully this is correct took qute a while to get my head around the different syntax. Again I used another users code to start and then put my own spin on it. I think I work better with the whole thing in front of me then I can see the context instead of building it up bit by bit.
+
+
+
