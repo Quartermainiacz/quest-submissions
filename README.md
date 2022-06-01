@@ -328,8 +328,120 @@ ANSWERS
     }
 }
 
+C3D5
+
+    access(all) contract SomeContract {
+    pub var testStruct: SomeStruct
+
+    pub struct SomeStruct {
+
+        //
+        // 4 Variables
+        //
+
+        pub(set) var a: String
+
+        pub var b: String
+
+        access(contract) var c: String
+
+        access(self) var d: String
+
+        //
+        // 3 Functions
+        //
+
+        pub fun publicFunc() {}
+
+        access(contract) fun contractFunc() {}
+
+        access(self) fun privateFunc() {}
 
 
+        pub fun structFunc() {
+            /**************/
+            /*** AREA 1 ***/
+            /**************/
+            
+            // a:  can be read and written
+            // b:  can be read and written
+            // c:  can be read and written
+            // d:  can be read and written
+            
+            // publicFunc() can be called here
+            // contractFunc() can be called here
+            // privateFunc() can be called here
+        }
 
+        init() {
+            self.a = "a"
+            self.b = "b"
+            self.c = "c"
+            self.d = "d"
+        }
+    }
 
+    pub resource SomeResource {
+        pub var e: Int
 
+        pub fun resourceFunc() {
+            /**************/
+            /*** AREA 2 ***/
+            /**************/
+            
+            // a: can be read and written
+            // b: only read
+            // c: only read
+            // d: no access
+            
+            // publicFunc() can be called here
+            // contractFunc() can be called here
+        }
+
+        init() {
+            self.e = 17
+        }
+    }
+
+    pub fun createSomeResource(): @SomeResource {
+        return <- create SomeResource()
+    }
+
+    pub fun questsAreFun() {
+        /**************/
+        /*** AREA 3 ****/
+        /**************/
+        
+        // a: can be read and written
+        // b: only read
+        // c: only read
+        // d: no access
+        
+        // publicFunc() can be called here
+        // contractFunc() can be called here
+    }
+
+    init() {
+        self.testStruct = SomeStruct()
+    }
+}
+
+SCRIPT
+
+import SomeContract from 0x01
+
+pub fun main() {
+  /**************/
+  /*** AREA 4 ***/
+  /**************/
+  
+    // a: can be read // write in a transaction
+    // b: can be read
+    // c: no access
+    // d: no access
+    
+    // publicFunc() can be called here
+}
+
+LINK TO ACCESS CONTROL ON FLOW DOCS
+https://docs.onflow.org/cadence/language/access-control/
