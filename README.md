@@ -589,5 +589,127 @@ C4D1 - Account Storage
     }
     Hopefully this is correct took qute a while to get my head around the different syntax. Again I used another users code to start and then put my own spin on it. I think I work better with the whole thing in front of me then I can see the context instead of building it up bit by bit.
 
+C4D2
 
+    
+
+    What does .link() do?
+    
+    Link allows us to take what is in our storage and make it publicly available(to look at only). It can be used with references, and restrictions can be added        to functions. You must link it to where it is stored.
+    
+    In your own words (no code), explain how we can use resource interfaces to only expose certain things to the /public/ path.
+    
+    We can use resource interfaces to expose only certain things (using functions) to the public by using capabilities. They work behind the scenes and only on a public account,     not an AuthAccount. You can use a 'getAcccount' method to access the public account using capabilities.   
+    
+    Deploy a contract that contains a resource that implements a resource interface. Then, do the following:
+    
+    pub contract AirPatrol {
+
+    pub var totalSupply: UInt64
+
+    pub resource interface IPilot {
+        pub let id: UInt64
+        pub let name: String
+        pub var nickname: String
+        pub fun changeNickname(nickname: String)
+    }
+
+    pub resource Pilot: IPilot {
+        pub let id: UInt64
+        pub let name: String
+        pub var nickname: String
+
+        init(name: String) {
+            self.name = name
+
+            self.nickname = ""
+
+            // Increment the global AirPatrol IDs
+            AirPatrol.totalSupply = AirPatrol.totalSupply + 1
+
+            // Set unique AirPatrol ID to the newly incremented totalSupply
+            self.id = AirPatrol.totalSupply
+        }
+
+        pub fun changeNickname(nickname: String) {
+            self.nickname = nickname
+        }
+    }
+
+    pub fun updateNicknameWithoutInterface() {
+        let pilot: @Pilot <- create Pilot(name: "Mitchell")
+        pilot.changeNickname(nickname: "Maverick")
+        log(pilot.nickname) // "New"
+
+        destroy pilot
+    }
+
+    // Restricted
+    pub fun updateNicknameInterface() {
+      let pilot: @Pilot{IPilot} <- create Pilot(name: "Mitchell")
+        pilot.changeNickname(nickname: "Maverick")
+        log(pilot.nickname) // "New"
+
+        destroy pilot
+    }
+
+    pub fun createPilot(name: String): @Pilot {
+    return <- create Pilot(name: name)
+    }
+
+    init() {
+        self.totalSupply = 0
+    }
+    }    
+
+    
+
+        In a transaction, save the resource to storage and link it to the public with the restrictive interface.
+    import AirPatrol from 0x01
+
+    transaction(name: String) {
+
+    prepare(signer: AuthAccount) {
+    
+    // Save the resource to account storage
+    signer.save(<- AirPatrol.createPilot(name: name), to: /storage/AirPatrolStorage)
+
+    // Link the resource from the account storage
+    signer.link<&AirPatrol.Pilot{AirPatrol.IPilot}>(/public/AirPatrolStorage, target: /storage/AirPatrolStorage)
+                  ?? panic("A `@AirPatrol.Pilot` resource does not exist")
+
+     }
+
+     execute {
+
+     }
+    }
+        Run a script that tries to access a non-exposed field in the resource interface, and see the error pop up.
+    
+    import AirPatrol from 0x01
+
+    pub fun main(address: Address): String {
+
+    let publicCapability: Capability<&AirPatrol.Pilot{AirPatrol.IPilot}> =
+    getAccount(address).getCapability<&AirPatrol.Pilot{AirPatrol.IPilot}>(/public/AirPatrolStorage)
+
+    let pilot: &AirPatrol.Pilot{AirPatrol.IPilot} = publicCapability.borrow() ?? panic("The capability doesn't exist or you did not specify the right type when     you got the capability.")
+
+    return pilot.name // ERROR: member of restricted type is not accessible: name
+    }
+    
+    
+        Run the script and access something you CAN read from. Return it from the script.
+        
+     import AirPatrol from 0x01
+
+    pub fun main(address: Address): UInt64 {
+
+    let publicCapability: Capability<&AirPatrol.Pilot{AirPatrol.IPilot}> =
+    getAccount(address).getCapability<&AirPatrol.Pilot{AirPatrol.IPilot}>(/public/AirPatrolStorage)
+
+    let pilot: &AirPatrol.Pilot{AirPatrol.IPilot} = publicCapability.borrow() ?? panic("The capability doesn't exist or you did not specify the right type when     you got the capability.")
+
+    return pilot.id
+    }
 
