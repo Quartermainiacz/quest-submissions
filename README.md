@@ -712,5 +712,85 @@ C4D2
 
     return pilot.id
     }
-C4D3 - My First NFT Contract!!!!!!!!
+C4D3 - My First NFT Contract!!!!!!!! TO be continued from 11:09 on youtube video
 
+pub contract AirPatrol  {
+
+  pub var totalSupply: UInt64
+
+  pub resource NFT  {
+    pub let id: UInt64
+
+    init() {
+      self.id = AirPatrol.totalSupply
+      AirPatrol.totalSupply = AirPatrol.totalSupply + (1 as UInt64)
+    }
+}
+
+  pub resource Collection  {
+    //Maps id of NFT to the NFT with that id
+    pub var ownedNFTs: @{UInt64: NFT}
+
+    pub fun deposit(token: @NFT) {
+      self.ownedNFTs[token.id] <-! token
+    }
+
+    pub fun withdraw(id: UInt64): @NFT {
+      let 
+
+    }  
+    
+    init()  {
+      self.ownedNFTs <-{}
+}
+
+  destroy() {
+    destroy self.ownedNFTs
+    }
+
+}
+
+  pub fun createNFT(): @NFT {
+    return <- create NFT()
+}
+
+init()  {
+    self.totalSupply = 0
+  }
+}
+
+Transactions so far
+
+Save NFT
+
+import AirPatrol from 0x02
+
+    transaction {
+
+    prepare(acct: AuthAccount) {
+      acct.save(<- AirPatrol.createNFT(), to: /storage/MyAirPatrol)
+    }
+    
+     execute {
+      log("Stored an NFT")
+     }
+    }
+ 
+ Create NEw NFT
+ 
+ import AirPatrol from 0x02
+
+    transaction {
+
+    prepare(acct: AuthAccount) {
+      
+      let aReference = acct.borrow<&AirPatrol.NFT>(from: /storage/MyAirPatrol)
+                            ?? panic("Nothing exists here!, You dont have an NFT.")
+        log(aReference.id)
+    }
+    
+     execute {
+      log("Printed NFT ID")
+     }
+    }
+   
