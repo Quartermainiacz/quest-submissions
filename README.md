@@ -14,7 +14,7 @@ DAY 1
     #A script is a line of code that reads information from a blockchain and it is free.
     
     #A transaction is a paid function call(when data gets changed on a blockchain). On certain blockchains this payment is known as gas and is a complete rip #off!
-    
+###########################################################################################################################################################
 DAY 2
     What are the 5 Cadence Programming Language Pillars?
     Security and safety
@@ -712,7 +712,7 @@ C4D2
 
     return pilot.id
     }
-C4D3 - My First NFT Contract!!!!!!!! TO be continued from 11:09 on youtube video
+C4D3 - My First NFT Contract!!!!!!!! 
 
 pub contract AirPatrol  {
 
@@ -726,20 +726,32 @@ pub contract AirPatrol  {
       AirPatrol.totalSupply = AirPatrol.totalSupply + (1 as UInt64)
     }
 }
+ // Only exposes `deposit` and `getIDs`
+  pub resource interface CollectionPublic {
+    pub fun deposit(token: @NFT)
+    pub fun getIDs(): [UInt64]
+  }
 
-  pub resource Collection  {
-    //Maps id of NFT to the NFT with that id
+  // `Collection` implements `CollectionPublic` now
+  pub resource Collection: CollectionPublic {
     pub var ownedNFTs: @{UInt64: NFT}
+
+//Allows us to deposit an NFT to the collection
 
     pub fun deposit(token: @NFT) {
       self.ownedNFTs[token.id] <-! token
     }
-
-    pub fun withdraw(id: UInt64): @NFT {
-      let 
-
+//Allows us to withdraw an NFT from the collection, if the nft does not exist it panics.
+    pub fun withdraw(withdrawID: UInt64): @NFT {
+      let nft <-  self.ownedNFTs.remove(key: withdrawID)
+            ?? panic("This NFT does not exist in this Collection.")
+      return <- nft
     }  
-    
+//Returns an array of all the NFT ids in our collection
+pub fun getIDs(): [UInt64] {
+    return self.ownedNFTs.keys
+}
+
     init()  {
       self.ownedNFTs <-{}
 }
@@ -753,46 +765,111 @@ pub contract AirPatrol  {
   pub fun createNFT(): @NFT {
     return <- create NFT()
 }
-
+  pub fun createEmptyCollection(): @Collection {
+    return <- create Collection()
+  }
 init()  {
     self.totalSupply = 0
   }
+
+}
+#######################
+Restrict hat people can see
+#######################
+import AirPatrol from 0x01
+
+transaction() {
+  prepare(signer: AuthAccount) {
+    // Store a `AirPatrol.Collection` in our account storage.
+    signer.save(<- AirPatrol.createEmptyCollection(), to: /storage/MyCollection)
+    
+    // NOTE: We expose `&AirPatrol.Collection{AirPatrol.CollectionPublic}`, which 
+    // only contains `deposit` and `getIDs`.
+    signer.link<&AirPatrol.Collection{AirPatrol.CollectionPublic}>(/public/MyCollection, target: /storage/MyCollection)
+  }
 }
 
-Transactions so far
-
-Save NFT
-
-import AirPatrol from 0x02
-
-    transaction {
-
-    prepare(acct: AuthAccount) {
-      acct.save(<- AirPatrol.createNFT(), to: /storage/MyAirPatrol)
-    }
+#######################
+Deposit and withdraw NFT
+#######################
+import AirPatrol from 0x01
+transaction() {
+  prepare(signer: AuthAccount) {
+    // Get a reference to our `AiPatrol.Collection`
+    let collection = signer.borrow<&AirPatrol.Collection>(from: /storage/MyCollection)
+                      ?? panic("The recipient does not have a Collection.")
     
-     execute {
-      log("Stored an NFT")
-     }
-    }
- 
- Create NEw NFT
- 
- import AirPatrol from 0x02
+    // deposits an `NFT` to our Collection
+    collection.deposit(token: <- AirPatrol.createNFT())
 
-    transaction {
+    log(collection.getIDs()) // [2353]
 
-    prepare(acct: AuthAccount) {
-      
-      let aReference = acct.borrow<&AirPatrol.NFT>(from: /storage/MyAirPatrol)
-                            ?? panic("Nothing exists here!, You dont have an NFT.")
-        log(aReference.id)
-    }
+    // withdraw the `NFT` from our Collection
+    let nft <- collection.withdraw(withdrawID: 2353) // We get this number from the ids array above
+  
+    log(collection.getIDs()) // []
+
+    destroy nft
+  }
+}
+
+####################################
+Deposit NFT to someone elses account
+####################################
+import AirPatrol from 0x01
+transaction(recipient: Address) {
+
+  prepare(otherPerson: AuthAccount) {
+    // Get a reference to the `recipient`s public Collection
+    let recipientsCollection = getAccount(recipient).getCapability(/public/MyCollection)
+                                  .borrow<&AirPatrol.Collection{AirPatrol.CollectionPublic}>()
+                                  ?? panic("The recipient does not have a Collection.")
     
-     execute {
-      log("Printed NFT ID")
-     }
-    }
-   
-LInk from playground
-https://play.onflow.org/b082fdb1-0fea-407e-8af0-80ca2a48ce77?type=tx&id=18f89622-18bc-49d2-b023-6bbf0dfd01fd&storage=none
+    // deposits an `NFT` to our Collection
+    recipientsCollection.deposit(token: <- AirPatrol.createNFT())
+  }
+
+}
+
+############################
+Script to read NFTs in acount
+#############################
+import AirPatrol from 0x01
+pub fun main(address: Address): [UInt64] {
+  let publicCollection = getAccount(address).getCapability(/public/MyCollection)
+              .borrow<&AirPatrol.Collection{AirPatrol.CollectionPublic}>()
+              ?? panic("The address does not have a Collection.")
+  
+  return publicCollection.getIDs() // [2353]
+}
+
+
+
+
+
+###################################################################################
+Quest answers
+###################################################################################
+
+    Why did we add a Collection to this contract? List the two main reasons.
+    
+   #### 1. It stores everything in one place
+    2. It makes it easier to manage
+    3. It makes it easier to restrict access
+
+    What do you have to do if you have resources "nested" inside of another resource? ("Nested resources")
+
+   ####When you have nested resources you must define a destroy() function so the nested resource either gets destroyed or moved when the parent resource is destroyed.
+
+    Brainstorm some extra things we may want to add to this contract. Think about what might be problematic with this contract and how we could fix it.
+
+        Idea #1: Do we really want everyone to be able to mint an NFT? 🤔.
+        
+   #### Perhaps it could be available to everyone depnds on how lmited you want the collection to be ?
+        You could limit who could mint by checking the wallet addresses of those who have be pre-approved on some sort of allowlist that could be referred to in the form of a csv?
+
+        Idea #2: If we want to read information about our NFTs inside our Collection, right now we have to take it out of the Collection to do so. Is this good?
+        I dont think it is good, as the nft could be lost somehow? Perhaps we could refer to the collection somehow using link or borrow?
+        
+        END OF DAY 3
+
