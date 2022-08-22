@@ -834,9 +834,11 @@ transaction(recipient: Address) {
 ############################
 Script to read NFTs in acount
 #############################
+
+
 import AirPatrol from 0x01
 pub fun main(address: Address): [UInt64] {
-  let publicCollection = getAccount(address).getCapability(/public/MyCollection)
+let publicCollection = getAccount(address).getCapability(/public/MyCollection)
               .borrow<&AirPatrol.Collection{AirPatrol.CollectionPublic}>()
               ?? panic("The address does not have a Collection.")
   
@@ -878,26 +880,28 @@ C4 D4 - NEED TO COMPLETE
 ########################################################################Adding Comments to contract#######################################################
 
 pub contract CryptoPoops {
-  pub var totalSupply: UInt64
+//contract name 
+pub var totalSupply: UInt64
+//total suply of nft
 
-  // This is an NFT resource that contains a name,
-  // favouriteFood, and luckyNumber
-  pub resource NFT {
-    pub let id: UInt64
+// This is an NFT resource that contains a name,
+// favouriteFood, and luckyNumber
+pub resource NFT {
+pub let id: UInt64
 
     pub let name: String
     pub let favouriteFood: String
     pub let luckyNumber: Int
+//this gives each variable a type, string or int
 
     init(_name: String, _favouriteFood: String, _luckyNumber: Int) {
       self.id = self.uuid
-
       self.name = _name
       self.favouriteFood = _favouriteFood
       self.luckyNumber = _luckyNumber
     }
   }
-
+//this initialises the information within the contract
   // This is a resource interface that allows us to look at, borrow and deposit to a collection 
   pub resource interface CollectionPublic {
     pub fun deposit(token: @NFT)
@@ -907,24 +911,27 @@ pub contract CryptoPoops {
     //
   pub resource Collection: CollectionPublic {
     pub var ownedNFTs: @{UInt64: NFT}
-
+//this creates a public colection where the nft resources where the NFT can be viewed
     pub fun deposit(token: @NFT) {
+    //this depsoits the nft within the collection
       self.ownedNFTs[token.id] <-! token
     }
 
     pub fun withdraw(withdrawID: UInt64): @NFT {
-      let nft <- self.ownedNFTs.remove(key: withdrawID) 
+    //this allows for the NFT to be withdrawn from the collection
+    let nft <- self.ownedNFTs.remove(key: withdrawID) 
               ?? panic("This NFT does not exist in this Collection.")
       return <- nft
     }
 
     pub fun getIDs(): [UInt64] {
       return self.ownedNFTs.keys
+    //this allows you to get the ids from all of your nfts
     }
 
     pub fun borrowNFT(id: UInt64): &NFT {
       return (&self.ownedNFTs[id] as &NFT?)!
-    }
+    //this allows you to borrow the nft from the collection storage}
 
     init() {
       self.ownedNFTs <- {}
@@ -932,15 +939,15 @@ pub contract CryptoPoops {
 
     destroy() {
       destroy self.ownedNFTs
-    }
+    }//this destroys the NFT from the original collection
   }
 
   pub fun createEmptyCollection(): @Collection {
     return <- create Collection()
-  }
+  }//this creates a empty collection to mint to
 
   pub resource Minter {
-
+//creation of resource called minter that will help us create nfts with ids and store them correctly.
     pub fun createNFT(name: String, favouriteFood: String, luckyNumber: Int): @NFT {
       return <- create NFT(_name: name, _favouriteFood: favouriteFood, _luckyNumber: luckyNumber)
     }
@@ -948,7 +955,7 @@ pub contract CryptoPoops {
     pub fun createMinter(): @Minter {
       return <- create Minter()
     }
-
+//creation of minter
   }
 
   init() {
